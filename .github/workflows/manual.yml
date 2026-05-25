@@ -8,6 +8,13 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
+      regiao:
+        description: 'Escolhe uma regiao'
+        type: choice
+        options:
+          - PT
+          - ES
+          - UK
       ambiente:
         type: environment
       servidor:
