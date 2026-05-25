@@ -1,1 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing Page Corporativa</title>
 
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+      <div class="text-2xl font-bold text-indigo-600">
+        MyPlatform
+      </div>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#" class="hover:text-indigo-600 transition">Features</a>
+        <a href="#" class="hover:text-indigo-600 transition">Architecture</a>
+        <a href="#" class="hover:text-indigo-600 transition">Pricing</a>
+        <a href="#" class="hover:text-indigo-600 transition">Contact</a>
+      </nav>
+
+      <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition">
+        Get Started
+      </button>
+
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="py-24">
+    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+
+      <div>
+
+        <span class="inline-flex items-center bg-indigo-100 text-indigo-700 text-sm font-semibold px-4 py-1 rounded-full mb-6">
+          Plataforma Enterprise Ready
+        </span>
+
+        <h1 class="text-5xl font-extrabold leading-tight mb-6">
+          Modernize a sua arquitetura digital com escalabilidade e segurança
+        </h1>
+
+        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+          Plataforma preparada para ambientes cloud-native, integração contínua,
+          observabilidade centralizada e arquiteturas modernas baseadas em APIs e microserviços.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-7 py-3 rounded-xl font-semibold transition">
+            Iniciar
+          </button>
+
+          <button class="border border-gray-300 hover:border-indigo-600 hover:text-indigo-600 px-7 py-3 rounded-xl font-semibold transition">
+            Saber Mais
+          </button>
+        </div>
+
+      </div>
+
+      <div class="relative">
+
+        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-bold text-lg">Observabilidade</h3>
+
+            <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">
+              Operational
+            </span>
+          </div>
+
+          <div class="space-y-4">
+
+            <div class="bg-gray-100 rounded-xl p-4">
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium">CPU Usage</span>
+                <span class="text-sm text-gray-500">72%</span>
+              </div>
+
+              <div class="w-full bg-gray-300 rounded-full h-2">
+                <div class="bg-indigo-600 h-2 rounded-full w-3/4"></div>
+              </div>
+            </div>
+
+            <div class="bg-gray-100 rounded-xl p-4">
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium">API Requests</span>
+                <span class="text-sm text-gray-500">1.2M</span>
+              </div>
+
+              <div class="w-full bg-gray-300 rounded-full h-2">
+                <div class="bg-green-500 h-2 rounded-full w-4/5"></div>
+              </div>
+            </div>
+
+            <div class="bg-gray-100 rounded-xl p-4">
+              <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium">Availability</span>
+                <span class="text-sm text-gray-500">99.98%</span>
+              </div>
+
+              <div class="w-full bg-gray-300 rounded-full h-2">
+                <div class="bg-blue-500 h-2 rounded-full w-full"></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-20 bg-white border-t border-b border-gray-100">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4">
+          Capacidades principais
+        </h2>
+
+        <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+          Solução desenhada para ambientes empresariais modernos,
+          garantindo segurança, integração e escalabilidade.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition">
+          <h3 class="text-xl font-bold mb-4">
+            Cloud Native
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Arquitetura preparada para Kubernetes, containers,
+            CI/CD e estratégias GitOps.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition">
+          <h3 class="text-xl font-bold mb-4">
+            Segurança
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Integração com Identity Providers corporativos,
+            OAuth2/OIDC e mecanismos centralizados de auditoria.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition">
+          <h3 class="text-xl font-bold mb-4">
+            Observabilidade
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Logging centralizado, métricas técnicas,
+            tracing distribuído e integração SIEM.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24">
+
+    <div class="max-w-5xl mx-auto px-6">
+
+      <div class="bg-indigo-600 rounded-3xl px-10 py-16 text-center text-white shadow-2xl">
+
+        <h2 class="text-4xl font-bold mb-6">
+          Preparado para acelerar a sua transformação digital?
+        </h2>
+
+        <p class="text-indigo-100 text-lg mb-8 max-w-2xl mx-auto">
+          Construa soluções modernas, escaláveis e seguras com uma stack tecnológica preparada para o futuro.
+        </p>
+
+        <button class="bg-white text-indigo-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-bold transition">
+          Solicitar Demonstração
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200">
+
+    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+
+      <div class="text-gray-500 text-sm">
+        © 2026 MyPlatform. Todos os direitos reservados.
+      </div>
+
+      <div class="flex gap-6 text-sm text-gray-500">
+        <a href="#" class="hover:text-indigo-600 transition">Privacy</a>
+        <a href="#" class="hover:text-indigo-600 transition">Terms</a>
+        <a href="#" class="hover:text-indigo-600 transition">Support</a>
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+</html>
