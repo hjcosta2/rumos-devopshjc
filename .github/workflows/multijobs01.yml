@@ -1,0 +1,56 @@
+name: Pipeline de CI/CD Dinâmico 01
+
+on:
+  push:
+    branches: [ staging, testing ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  # 1. Job de Testes (Corre sempre)
+  test:
+    name: Executar Testes Unitários
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/actions-setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Instalar dependências e testar
+        run: |
+          npm ci
+          npm test
+
+  # 2. Job de Deploy em Staging (Depende os testes + precisa de ser na branch develop)
+  deploy-staging:
+    name: Deploy para Staging
+    runs-on: ubuntu-latest
+    needs: test # Só inicia se o job 'test' terminar com sucesso
+    if: github.ref == 'refs/heads/develop' # Condição de branch
+    steps:
+      - name: Executar script de Deploy em Staging
+        run: echo "A efetuar o deploy no ambiente de Homologação/Staging..."
+
+  # 3. Job de Deploy em Produção (Depende dos testes + precisa de ser na branch main)
+  deploy-production:
+    name: Deploy para Produção
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Executar script de Deploy em Produção
+        run: echo "A efetuar o deploy no ambiente de Produção..."
+
+  # 4. Job de Notificação de Falha (Só corre se o job de teste FALHAR)
+  notify-failure:
+    name: Notificar Falha no Slack
+    runs-on: ubuntu-latest
+    needs: test
+    if: failure() # Condição especial do GitHub Actions para falhas
+    steps:
+      - name: Enviar Alerta
+        run: echo "Alerta! Os testes falharam. Vem ver o que se passa!"
