@@ -1,0 +1,78 @@
+name: Gestão de Servidores via Python
+
+on:
+  workflow_dispatch:
+    inputs:
+      acao:
+        description: 'O que deseja fazer?'
+        required: true
+        type: choice
+        options:
+          - 'adicionar'
+          - 'remover'
+          - 'listar'
+        default: 'adicionar'
+      nome_servidor:
+        description: 'Nome do servidor (Obrigatório para Adicionar/Remover)'
+        required: false
+        type: string
+      ambiente:
+        description: 'Ambiente/Tipo (Apenas para Adicionar)'
+        required: false
+        type: choice
+        options:
+          - 'Desenvolvimento'
+          - 'Staging'
+          - 'Produção'
+        default: 'Desenvolvimento'
+      ip_servidor:
+        description: 'Endereço IP (Apenas para Adicionar)'
+        required: false
+        type: string
+
+jobs:
+  gerenciar_inventario:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          # Permite fazer push de volta para o repositório
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar Dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Executar Lógica em Python
+        run: |
+          # Executa o script passando os inputs como argumentos de linha de comando
+          if [ "${{ github.event.inputs.acao }}" = "adicionar" ]; then
+            python run_deploy.py adicionar "${{ github.event.inputs.nome_servidor }}" "${{ github.event.inputs.ambiente }}" "${{ github.event.inputs.ip_servidor }}"
+          elif [ "${{ github.event.inputs.acao }}" = "remover" ]; then
+            python run_deploy.py remover "${{ github.event.inputs.nome_servidor }}"
+          else
+            python run_deploy.py listar
+          fi
+
+      - name: Guardar alterações no Repositório (Commit & Push)
+        if: ${{ github.event.inputs.acao != 'listar' }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Verifica se o ficheiro servidores.yaml foi modificado
+          if git status --porcelain | grep -q "servidores.yaml"; then
+            git add servidores.yaml
+            git commit -m "chore: atualizado inventário via GitHub Actions [${{ github.event.inputs.acao }}]"
+            git push
+          else
+            echo "Nenhuma alteração detetada no ficheiro YAML."
+          fi

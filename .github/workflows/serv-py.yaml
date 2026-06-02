@@ -1,0 +1,6 @@
+- servidor: srv-db-prod
+  tipo: Banco de Dados
+  ip: 192.168.1.20
+- servidor: srv-bck-01
+  tipo: Backup
+  ip: 192.168.1.30

@@ -1,0 +1,17 @@
+name: Alerta
+
+on:
+  workflow_run:
+    workflows: ["Testes"]
+    types:
+      - completed
+
+jobs:
+  notify-failure:
+    name: Notificar Falha no Slack
+    runs-on: ubuntu-latest
+    # Só corre se o resultado do workflow de testes for 'failure'
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Enviar Alerta
+        run: echo "Alerta! Os testes falharam na branch ${{ github.event.workflow_run.head_branch }}. Vem ver o que se passa!"

@@ -1,0 +1,100 @@
+name: Gestão de Servidores via PowerShell
+
+on:
+  workflow_dispatch:
+    inputs:
+      acao:
+        description: 'O que deseja fazer?'
+        required: true
+        type: choice
+        options:
+          - 'adicionar'
+          - 'remover'
+          - 'listar'
+        default: 'adicionar'
+      nome_servidor:
+        description: 'Nome do servidor (Obrigatório para Adicionar/Remover)'
+        required: false
+        type: string
+      ambiente:
+        description: 'Ambiente/Tipo (Apenas para Adicionar)'
+        required: false
+        type: choice
+        options:
+          - 'Produção'
+          - 'Banco de Dados'
+          - 'Backup'
+          - 'Desenvolvimento'
+        default: 'Desenvolvimento'
+      ip_servidor:
+        description: 'Endereço IP (Apenas para Adicionar)'
+        required: false
+        type: string
+
+jobs:
+  executar_powershell:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Instalar Módulo YAML no PowerShell
+        shell: pwsh
+        run: |
+          # Instala o módulo powershell-yaml silenciosamente na máquina do GitHub
+          Install-Module -Name powershell-yaml -Force -Scope CurrentUser -AllowClobber
+
+      - name: Executar Script PowerShell
+        shell: pwsh
+        run: |
+          # Importa as funções do teu script original
+          . .\GerenciadorServidores.ps1
+
+          # Captura as variáveis vindas do formulário do GitHub
+          $Acao = "${{ github.event.inputs.acao }}"
+          $Nome = "${{ github.event.inputs.nome_servidor }}"
+          $Tipo = "${{ github.event.inputs.ambiente }}"
+          $IP   = "${{ github.event.inputs.ip_servidor }}"
+
+          # Avalia a ação escolhida e executa a respetiva função do script
+          if ($Acao -eq "adicionar") {
+              if ([string]::IsNullOrEmpty($Nome) -or [string]::IsNullOrEmpty($IP)) {
+                  Write-Error "Erro: Nome e IP são obrigatórios para adicionar."
+                  exit 1
+              }
+              $Sucesso = Adicionar-Servidor -Servidor $Nome -Tipo $Tipo -Ip $IP
+              if (-not $Sucesso) { exit 1 }
+          }
+          elif ($Acao -eq "remover") {
+              if ([string]::IsNullOrEmpty($Nome)) {
+                  Write-Error "Erro: Nome é obrigatório para remover."
+                  exit 1
+              }
+              $Sucesso = Remover-Servidor -ServidorNome $Nome
+              if (-not $Sucesso) { exit 1 }
+          }
+          elif ($Acao -eq "listar") {
+              Listar-Servidores
+          }
+
+      - name: Guardar alterações no Repositório (Commit & Push)
+        if: ${{ github.event.inputs.acao != 'listar' }}
+        shell: pwsh
+        run: |
+          # Configura o utilizador do Git para o commit parecer vir do bot do GitHub
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Verifica se o ficheiro servidores.yaml sofreu modificações
+          $Status = git status --porcelain servidores.yaml
+          if ($null -ne $Status) {
+              Write-Host "A gravar alterações no servidores.yaml..."
+              git add servidores.yaml
+              git commit -m "chore: inventário atualizado via PowerShell Action [${{ github.event.inputs.acao }}]"
+              git push
+          } else {
+              Write-Host "Nenhuma alteração detetada no ficheiro YAML."
+          }

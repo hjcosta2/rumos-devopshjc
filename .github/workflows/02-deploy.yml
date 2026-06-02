@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["Testes"] # Nome exato do primeiro workflow
+    types:
+      - completed # Dispara quando o primeiro workflow terminar
+
+jobs:
+  # Job para Staging (Apenas se os testes passaram E a branch for a develop)
+  deploy-staging:
+    name: Deploy para Staging
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'develop' }}
+    steps:
+      - name: Executar script de Deploy em Staging
+        run: echo "A efetuar o deploy no ambiente de Homologação/Staging..."
+
+  # Job para Produção (Apenas se os testes passaram E a branch for a main)
+  deploy-production:
+    name: Deploy para Produção
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    steps:
+      - name: Executar script de Deploy em Produção
+        run: echo "A efetuar o deploy no ambiente de Produção..."

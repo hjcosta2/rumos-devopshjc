@@ -1,0 +1,25 @@
+name: Testes
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Executar Testes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/actions-setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências e testar
+        run: |
+          npm ci
+          npm test
