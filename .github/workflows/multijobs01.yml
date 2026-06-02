@@ -30,7 +30,7 @@ jobs:
     name: Deploy para Staging
     runs-on: ubuntu-latest
     needs: test # Só inicia se o job 'test' terminar com sucesso
-    if: github.ref == 'refs/heads/develop' # Condição de branch
+    if: github.ref == 'refs/heads/main' # Condição de branch
     steps:
       - name: Executar script de Deploy em Staging
         run: echo "A efetuar o deploy no ambiente de Homologação/Staging..."
